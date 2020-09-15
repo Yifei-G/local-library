@@ -1,5 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.urls import reverse
 import uuid
+from datetime import date
 
 # Create your models here.
 
@@ -47,11 +50,11 @@ class Book(models.Model):
 
     display_genre.short_description = 'Genre'
 
+    def get_absolute_url(self):
+        return reverse('book-detail', args=[str(self.id)])
+
     def __str__(self):
         return self.title
-
-    def get_absolute_url(self):
-        return reverse('book-detail', arg=[str(self.id)])
 
 
 class BookInstance(models.Model):
@@ -68,12 +71,22 @@ class BookInstance(models.Model):
 
     status = models.CharField(max_length=1, choices=LOAN_STATUS,
                               blank=True, default='m', help_text='Book availability')
+    borrower = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         ordering = ['due_back']
+        permissions = (("can_mark_returned", "Set book as returned"),)
 
     def __str__(self):
         return f'{self.id} ({self.book.title})'
+
+    # Check if a bookinstance is overdue
+    @property
+    def is_overdue(self):
+        if self.due_back and date.today() > self.due_back:
+            return True
+        return False
 
 
 class Author(models.Model):
