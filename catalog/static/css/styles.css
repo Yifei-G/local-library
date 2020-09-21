@@ -1,10 +1,56 @@
+body{
+	font-family: 'Open Sans Condensed', sans-serif;
+}
+.row{
+	height: 100%;
+}
+.col-sm-1{
+	background-color: #4682b4;
+}
+
+
 .sidebar-nav{
 	margin-top: 20px;
 	padding:0;
 	list-style: none;
+	/*border: 1px solid black;*/
+	display: grid;
+	justify-items: stretch;
+}
+
+.sidebar-item{
+	display: block;
+	font-size: 20px;
+	margin-bottom: 10px;
+	transition: border-bottom 1.5s ease-out
+
+}
+
+.sidebar-item:hover{
+	border-bottom: 1px solid red;
+}
+
+
+
+.sidebar-item a{
+	position: relative;
+	left: 16px;
+	transition: color 1s ease-out
+}
+
+
+.sidebar-item a:hover{
+	color:red;
+	text-decoration: none;
+}
+
+
+.sidebar-nav li span,a{
+	color:#f5f5f5;
 }
 
 .book-detail{
 	margin-left: 20px;
 	margin-top: 20px; 
 }
+
